@@ -1,0 +1,280 @@
+Sub jobssummary_format()
+
+'reformat report pulled from Greenhouse for Jobs Summary report
+
+    'delete top 3 rows
+    Rows("1:3").Select
+    Selection.Delete Shift:=xlUp
+    
+    'delete unnecessary columns
+    Columns("AD:AC").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("V:Y").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("S:S").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("N:Q").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("L:L").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("B:J").Select
+    Selection.Delete Shift:=xlToLeft
+    
+    'organize column order
+    Columns("D:D").Select
+    Selection.Cut
+    Columns("G:G").Select
+    Selection.Insert Shift:=xlToRight
+    
+    'insert blank column for "Company"
+    Columns("D:D").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    'type in "Company" header
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "Company"
+    'type in "Recruiter" header
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "Recruiter"
+    
+
+    'select A1
+    Range("A1").Select
+    'ctrl shift right & down to select all info
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+
+    'center text
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+    End With
+
+    'gridline all
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+    End With
+
+
+    'fill header black
+    Range("A1:J1").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorLight1
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    'header: change text color white
+    With Selection.Font
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = 0
+    End With
+    'header: bold
+    Selection.Font.Bold = True
+    
+    
+    'turn on filter buttons
+    Range("C1").Select
+    Selection.AutoFilter
+    ActiveWorkbook.Worksheets("All Jobs Summary").AutoFilter.Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("All Jobs Summary").AutoFilter.Sort.SortFields.Add2 _
+        Key:=Range("C:C"), SortOn:=xlSortOnValues, Order:=xlAscending, _
+        DataOption:=xlSortNormal
+    'sort Recruiter column by a-z
+    With ActiveWorkbook.Worksheets("All Jobs Summary").AutoFilter.Sort
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+    'color code Recruiter column by recruiter names: all individually
+    'typed out per name
+    Columns("C:C").Select
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Alex Martin", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = 13551615
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Caitlin O'Shea", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = 6420989
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Courtney Hylwa", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = 16772321
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Gene Viado", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = 9632914
+        .TintAndShade = 0
+    End With
+    
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Jackson Shoaff-Bembry", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark2
+        .TintAndShade = -9.99481185338908E-02
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Leo Kim", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark2
+        .Color = 123456789
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Narcisse Izadi", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorAccent2
+        .TintAndShade = 0.599963377788629
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Amelia Draizin", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = 15173868
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Anna Raghavan", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = 13434828
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Andy Lucas", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = -0.14996795556505
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Hallie Fasanella", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(168, 119, 252)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Mark Shanahan", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(220, 220, 220)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    'add column for "Status"
+    Columns("B:B").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    
+    'type in col name
+    Range("B1").Select
+    ActiveCell.FormulaR1C1 = "Status"
+    Range("A1").Select
+    
+    'add sheet for data validation list
+    Sheets.Add After:=ActiveSheet
+    ActiveCell.FormulaR1C1 = "Recently Opened"
+    Range("A2").Select
+    ActiveCell.FormulaR1C1 = "Sourcing"
+    Range("A3").Select
+    ActiveCell.FormulaR1C1 = "Interviewing"
+    Range("A4").Select
+    ActiveCell.FormulaR1C1 = "Offer"
+    Range("A5").Select
+    Sheets("All Jobs Summary").Select
+    
+    'select b2::
+    Range("B2").Select
+    Range(ActiveCell, ActiveCell.End(xlDown)).Select
+    
+    'apply data validation
+    Application.CutCopyMode = False
+    With Selection.Validation
+        .Delete
+        .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
+        xlBetween, Formula1:="=Sheet1!$A$1:$A$4"
+        .IgnoreBlank = True
+        .InCellDropdown = True
+        .InputTitle = ""
+        .ErrorTitle = ""
+        .InputMessage = ""
+        .ErrorMessage = ""
+        .ShowInput = True
+        .ShowError = True
+    End With
+    'adjust col width
+    Columns("B").ColumnWidth = 22.7
+    
+End Sub
