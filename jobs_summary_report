@@ -1,10 +1,28 @@
+Sub Select_A1_On_All_Sheets()
+
+Dim ws As Worksheet
+
+For Each ws In ActiveWorkbook.Sheets
+ws.Activate
+ws.[a1].Select
+ActiveWindow.Zoom = 100
+Next ws
+ActiveWorkbook.Worksheets(1).Activate
+
+End Sub
+
+
 Sub jobssummary_format()
 
  
 
 'reformat report pulled from Greenhouse for Jobs Summary report
 
- 
+    'before running remaining code, check for:
+    'CarryOn = MsgBox("Did you check for multiple job openings?", vbYesNo, "Kutools for Excel")
+    'If CarryOn = vbNo Then
+    'Exit Sub
+    'End If
 
     'delete top 3 rows
     Rows("1:3").Select
@@ -21,32 +39,25 @@ Sub jobssummary_format()
     Selection.Delete Shift:=xlToLeft
     Columns("L:L").Select
     Selection.Delete Shift:=xlToLeft
-    Columns("B:J").Select
+    Columns("B:E").Select
     Selection.Delete Shift:=xlToLeft
-    Columns("J:L").Select
-    Selection.Delete Shift:=xlToLeft
-    Columns("K:K").Select
+    Columns("C:F").Select
     Selection.Delete Shift:=xlToLeft
     
+    Columns("K:o").Select
+    Selection.Delete Shift:=xlToLeft
     
     'organize column order
-    Columns("D:D").Select
+    Columns("e:e").Select
     Selection.Cut
-    Columns("G:G").Select
+    Columns("h:h").Select
     Selection.Insert Shift:=xlToRight
-    
-    Columns("J:J").Select
-    Selection.Cut
-    Columns("D:D").Select
-    Selection.Insert Shift:=xlToRight
-    
-    'select A1
+        
+    'select all
     Range("A1").Select
     'ctrl shift right & down to select all info
     Range(Selection, Selection.End(xlToRight)).Select
     Range(Selection, Selection.End(xlDown)).Select
-
- 
 
     'center text
     With Selection
@@ -106,11 +117,11 @@ Sub jobssummary_format()
     
     
     'turn on filter buttons
-    Range("C1").Select
+    Range("D1").Select
     Selection.AutoFilter
     ActiveWorkbook.Worksheets("All Jobs Summary").AutoFilter.Sort.SortFields.Clear
     ActiveWorkbook.Worksheets("All Jobs Summary").AutoFilter.Sort.SortFields.Add2 _
-        Key:=Range("C:C"), SortOn:=xlSortOnValues, Order:=xlAscending, _
+        Key:=Range("D:D"), SortOn:=xlSortOnValues, Order:=xlAscending, _
         DataOption:=xlSortNormal
     'sort Recruiter column by a-z
     With ActiveWorkbook.Worksheets("All Jobs Summary").AutoFilter.Sort
@@ -123,7 +134,7 @@ Sub jobssummary_format()
     
     'color code Recruiter column by recruiter names: all individually
     'typed out per name
-    Columns("C:C").Select
+    Columns("D:D").Select
     Selection.FormatConditions.Add Type:=xlTextString, String:="Alex Martin", _
         TextOperator:=xlContains
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
@@ -132,66 +143,22 @@ Sub jobssummary_format()
         .Color = RGB(237, 151, 149)
     End With
     Selection.FormatConditions(1).StopIfTrue = False
-  
 
-    Selection.FormatConditions.Add Type:=xlTextString, String:="Courtney Hylwa", _
-        TextOperator:=xlContains
-    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-    With Selection.FormatConditions(1).Interior
-        .PatternColorIndex = xlAutomatic
-        .Color = RGB(245, 193, 98)
-    End With
-    Selection.FormatConditions(1).StopIfTrue = False
-
- 
-
-    Selection.FormatConditions.Add Type:=xlTextString, String:="Gene Viado", _
-        TextOperator:=xlContains
-    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-    With Selection.FormatConditions(1).Interior
-        .PatternColorIndex = xlAutomatic
-        .Color = RGB(252, 249, 192)
-    End With
-    
-    Selection.FormatConditions.Add Type:=xlTextString, String:="Jackson Shoaff-Bembry", _
-        TextOperator:=xlContains
-    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-    With Selection.FormatConditions(1).Interior
-        .PatternColorIndex = xlAutomatic
-        .PatternColorIndex = xlAutomatic
-        .Color = RGB(114, 237, 118)
-    End With
-    Selection.FormatConditions(1).StopIfTrue = False
-
- 
-
-    Selection.FormatConditions.Add Type:=xlTextString, String:="AVAILABLE COLOR", _
-        TextOperator:=xlContains
-    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-    With Selection.FormatConditions(1).Interior
-        .PatternColorIndex = xlAutomatic
-        .Color = RGB(89, 235, 225)
-    End With
-    Selection.FormatConditions(1).StopIfTrue = False
-
- 
-
-    Selection.FormatConditions.Add Type:=xlTextString, String:="Nicole Padilla", _
-        TextOperator:=xlContains
-    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-    With Selection.FormatConditions(1).Interior
-        .PatternColorIndex = xlAutomatic
-        .Color = RGB(247, 37, 195)
-    End With
-    Selection.FormatConditions(1).StopIfTrue = False
-    
-    
     Selection.FormatConditions.Add Type:=xlTextString, String:="Amelia Draizin", _
         TextOperator:=xlContains
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     With Selection.FormatConditions(1).Interior
         .PatternColorIndex = xlAutomatic
         .Color = RGB(213, 185, 240)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Angela Menniti", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(147, 255, 143)
     End With
     Selection.FormatConditions(1).StopIfTrue = False
     
@@ -204,6 +171,62 @@ Sub jobssummary_format()
     End With
     Selection.FormatConditions(1).StopIfTrue = False
     
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Beth Guerra", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(172, 185, 202)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+        
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Courtney Hylwa", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(245, 193, 98)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+ 
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Gene Viado", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(252, 249, 192)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Jackson Shoaff-Bembry", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(114, 237, 118)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Mike Hallahan", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(89, 235, 225)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Nicole Padilla", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(247, 37, 195)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
     Selection.FormatConditions.Add Type:=xlTextString, String:="Jennifer Schwegler", _
         TextOperator:=xlContains
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
@@ -212,8 +235,6 @@ Sub jobssummary_format()
         .Color = RGB(73, 226, 252)
     End With
     Selection.FormatConditions(1).StopIfTrue = False
-
- 
 
     Selection.FormatConditions.Add Type:=xlTextString, String:="Hallie Fasanella", _
         TextOperator:=xlContains
@@ -224,8 +245,6 @@ Sub jobssummary_format()
     End With
     Selection.FormatConditions(1).StopIfTrue = False
 
- 
-
     Selection.FormatConditions.Add Type:=xlTextString, String:="Mark Shanahan", _
         TextOperator:=xlContains
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
@@ -235,23 +254,12 @@ Sub jobssummary_format()
     End With
     Selection.FormatConditions(1).StopIfTrue = False
 
- 
-
     Selection.FormatConditions.Add Type:=xlTextString, String:="Denny Saravia", _
         TextOperator:=xlContains
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     With Selection.FormatConditions(1).Interior
         .PatternColorIndex = xlAutomatic
         .Color = RGB(232, 198, 167)
-    End With
-    Selection.FormatConditions(1).StopIfTrue = False
-    
-       Selection.FormatConditions.Add Type:=xlTextString, String:="Angela Menniti", _
-        TextOperator:=xlContains
-    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-    With Selection.FormatConditions(1).Interior
-        .PatternColorIndex = xlAutomatic
-        .Color = RGB(147, 255, 143)
     End With
     Selection.FormatConditions(1).StopIfTrue = False
     
@@ -263,26 +271,23 @@ Sub jobssummary_format()
         .Color = RGB(250, 160, 233)
     End With
     Selection.FormatConditions(1).StopIfTrue = False
-    
-    
+
     Selection.FormatConditions.Add Type:=xlTextString, String:="Meher Shahabadi", _
         TextOperator:=xlContains
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     With Selection.FormatConditions(1).Interior
         .PatternColorIndex = xlAutomatic
         .Color = RGB(17, 171, 155)
-    
-    
-
     End With
     Selection.FormatConditions(1).StopIfTrue = False
+
     
     'add column for "Status"
-    Columns("B:B").Select
+    Columns("C:C").Select
     Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
     
     'type in col name
-    Range("B1").Select
+    Range("C1").Select
     ActiveCell.FormulaR1C1 = "Status"
     Range("A1").Select
     
@@ -298,10 +303,11 @@ Sub jobssummary_format()
     Range("A5").Select
     ActiveCell.FormulaR1C1 = "On Hold"
     Range("A6").Select
+    
     Sheets("All Jobs Summary").Select
     
     'select b2::
-    Range("B2").Select
+    Range("C2").Select
     Range(ActiveCell, ActiveCell.End(xlDown)).Select
     
     'apply data validation
@@ -322,10 +328,51 @@ Sub jobssummary_format()
     
     'adjust col width
     Columns("A:K").AutoFit
-    Columns("B").ColumnWidth = 14.5
+    Columns("C").ColumnWidth = 14.5
     
- 
     
+    'filter for evergreen departments and delete rows
+    Dim Rng As Range
+    Set Rng = Selection
+    Rng.AutoFilter Field:=6, Criteria1:="*evergreen*"
+    ActiveSheet.UsedRange.Offset(1, 0).Resize(ActiveSheet.UsedRange.Rows.Count - 1).EntireRow.Delete
+    ActiveSheet.ShowAllData
+    
+    'filter for blank recruiters and delete rows
+    Set Rng = Selection
+    Rng.AutoFilter Field:=5, Criteria1:="="
+    ActiveSheet.UsedRange.Offset(1, 0).Resize(ActiveSheet.UsedRange.Rows.Count - 1).EntireRow.Delete
+    ActiveSheet.ShowAllData
+    
+    'add days open column
+    Columns("E:E").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("E1").Select
+    ActiveCell.FormulaR1C1 = "Days Open"
+    
+    'add today's date in 2nd worksheet and paste just for value
+    Sheets("Sheet1").Select
+    Range("I1").Select
+    ActiveCell.FormulaR1C1 = "=TODAY()"
+    Range("I1").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        
 
+    Sheets("All Jobs Summary").Select
+    
+    'subtract today's date with open date
+    'autofill formula
+    Dim lastRow As Long
+    lastRow = Range("A" & Rows.Count).End(xlUp).Row
+    Range("E2:E" & lastRow) = "=DAYS(Sheet1!R1C9,RC[-1])"
+    
+    'change number format
+    Columns("E:E").Select
+    Selection.NumberFormat = "0"
+    
+    
+    
 End Sub
 
