@@ -96,8 +96,6 @@ Sub jobssummary_format()
     End With
 
  
-
-
     'fill header black
     Range("A1:J1").Select
     With Selection.Interior
@@ -349,7 +347,9 @@ Sub jobssummary_format()
     Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
     Range("E1").Select
     ActiveCell.FormulaR1C1 = "Days Open"
-    
+
+'ADD INFO TO SHEET1------------------------------------
+
     'add today's date in 2nd worksheet and paste just for value
     Sheets("Sheet1").Select
     Range("I1").Select
@@ -358,8 +358,36 @@ Sub jobssummary_format()
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
-        
 
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "DAYS OPEN"
+    Range("D3").Select
+    ActiveCell.FormulaR1C1 = "T3"
+    Range("D4").Select
+    ActiveCell.FormulaR1C1 = "Others"
+    Range("E2").Select
+    ActiveCell.FormulaR1C1 = "green"
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = "yellow"
+    Range("G2").Select
+    ActiveCell.FormulaR1C1 = "red"
+    Range("E3").Select
+    ActiveCell.FormulaR1C1 = "0-45"
+    Range("F3").Select
+    ActiveCell.FormulaR1C1 = "46-60"
+     Range("G3").Select
+    ActiveCell.FormulaR1C1 = "61+"
+    Range("E4").Select
+    ActiveCell.FormulaR1C1 = "0-30"
+     Range("F4").Select
+    ActiveCell.FormulaR1C1 = "31-60"
+    Range("G4").Select
+    ActiveCell.FormulaR1C1 = "61+"
+ 
+      
+
+'END-------------------------------------------------
+    'add conditional formatting formulas
     Sheets("All Jobs Summary").Select
     
     'subtract today's date with open date
@@ -369,9 +397,30 @@ Sub jobssummary_format()
     Range("E2:E" & lastRow) = "=DAYS(Sheet1!R1C9,RC[-1])"
     
     'change number format
-    Columns("E:E").Select
+    'select all
+    Range("E2").Select
+    'ctrl shift & down to select all info
+    Range(Selection, Selection.End(xlDown)).Select
     Selection.NumberFormat = "0"
     
+    'set up conditional formatting formulas but need to update formula and format
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(1).StopIfTrue = False
+
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(1).StopIfTrue = True
+    
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(1).StopIfTrue = True
+
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(1).StopIfTrue = True
     
     
 End Sub
