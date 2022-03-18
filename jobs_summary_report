@@ -24,6 +24,10 @@ Sub jobssummary_format()
     'Exit Sub
     'End If
 
+    'Freeze view 1st row & 1st col
+    Range("B2").Select
+    ActiveWindow.FreezePanes = True
+    
     'delete top 3 rows
     Rows("1:3").Select
     Selection.Delete Shift:=xlUp
@@ -404,24 +408,41 @@ Sub jobssummary_format()
     Selection.NumberFormat = "0"
     
     'set up conditional formatting formulas but need to update formula and format
-    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
-    Selection.FormatConditions(1).StopIfTrue = False
+    Range("E2").Select
+    'ctrl shift & down to select all info
+    Range(Selection, Selection.End(xlDown)).Select
     
+    'conditional formatting initiated
     Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = False
-
+    Range("E2:E87").Select
     Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = False
-    
+    Range("E2:E87").Select
     Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).StopIfTrue = False
+    Range("E2:E87").Select
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).StopIfTrue = True
+    Range("E2:E87").Select
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).StopIfTrue = True
+    Range("E2:E87").Select
+    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = True
     
-    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
-    Selection.FormatConditions(1).StopIfTrue = True
-
-    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
-    Selection.FormatConditions(1).StopIfTrue = True
     
+    'add business unit column
+    Columns("G:G").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("G1").Select
+    ActiveCell.FormulaR1C1 = "Business Unit"
     
 End Sub
 
