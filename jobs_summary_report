@@ -1,17 +1,3 @@
-Sub Select_A1_On_All_Sheets()
-
-Dim ws As Worksheet
-
-For Each ws In ActiveWorkbook.Sheets
-ws.Activate
-ws.[a1].Select
-ActiveWindow.Zoom = 100
-Next ws
-ActiveWorkbook.Worksheets(1).Activate
-
-End Sub
-
-
 Sub jobssummary_format()
 
  
@@ -411,28 +397,46 @@ Sub jobssummary_format()
     Range("E2").Select
     'ctrl shift & down to select all info
     Range(Selection, Selection.End(xlDown)).Select
-    
     'conditional formatting initiated
-    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    Selection.NumberFormat = "0"
+    Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlGreaterEqual _
+        , Formula1:="=61"
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = False
-    Range("E2:E87").Select
-    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+
+    'repeat conditional formatting setup for each formula
+
+    Range("E2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.NumberFormat = "0"
+    Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlBetween, _
+        Formula1:="=31", Formula2:="=60"
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = False
-    Range("E2:E87").Select
-    Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
+    
+    Range("E2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.NumberFormat = "0"
+    Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlBetween, _
+        Formula1:="=0", Formula2:="=30"
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = False
+    
+    'The next 3 conditional formatting are for t3. Need to update manually
     Range("E2:E87").Select
+    Range(Selection, Selection.End(xlDown)).Select
     Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = True
+    
     Range("E2:E87").Select
+    Range(Selection, Selection.End(xlDown)).Select
     Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = True
+    
     Range("E2:E87").Select
+    Range(Selection, Selection.End(xlDown)).Select
     Selection.FormatConditions.Add Type:=xlExpression, Formula1:="=1"
     Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = True
