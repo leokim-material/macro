@@ -1,0 +1,12 @@
+Sub Select_A1_On_All_Sheets()
+
+Dim ws As Worksheet
+
+For Each ws In ActiveWorkbook.Sheets
+ws.Activate
+ws.[a1].Select
+ActiveWindow.Zoom = 100
+Next ws
+ActiveWorkbook.Worksheets(1).Activate
+
+End Sub
