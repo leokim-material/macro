@@ -10,6 +10,8 @@ Sub jobssummary_format()
     'Exit Sub
     'End If
 
+    CarryOn = MsgBox("change date to MONDAY, not sunday; REMOVE ALEX'S REQS", vbYesNo, "Kutools for Excel")
+    
     'Freeze view 1st row & 1st col
     Range("B2").Select
     ActiveWindow.FreezePanes = True
@@ -34,7 +36,10 @@ Sub jobssummary_format()
     Columns("C:F").Select
     Selection.Delete Shift:=xlToLeft
     
-    Columns("K:o").Select
+    Columns("O").Select
+    Selection.Delete Shift:=xlToLeft
+    
+    Columns("K:M").Select
     Selection.Delete Shift:=xlToLeft
     
     'organize column order
@@ -269,6 +274,24 @@ Sub jobssummary_format()
     End With
     Selection.FormatConditions(1).StopIfTrue = False
 
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Pooja Nimavat", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(255, 255, 37)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
+    Selection.FormatConditions.Add Type:=xlTextString, String:="Symone Daniels", _
+        TextOperator:=xlContains
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    With Selection.FormatConditions(1).Interior
+        .PatternColorIndex = xlAutomatic
+        .Color = RGB(169, 208, 142)
+    End With
+    Selection.FormatConditions(1).StopIfTrue = False
+    
     
     'add column for "Status"
     Columns("C:C").Select
@@ -374,7 +397,11 @@ Sub jobssummary_format()
     Range("G4").Select
     ActiveCell.FormulaR1C1 = "61+"
  
-      
+    Range("K1").Select
+    ActiveCell.FormulaR1C1 = "Count of Job: total number of unique open requisitions"
+    Range("K2").Select
+    ActiveCell.FormulaR1C1 = "Sum of Openings: total number of seats to fill"
+    
 
 'END-------------------------------------------------
     'add conditional formatting formulas
@@ -447,6 +474,13 @@ Sub jobssummary_format()
     Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
     Range("G1").Select
     ActiveCell.FormulaR1C1 = "Business Unit"
-    
-End Sub
 
+    'original business unit column move
+    Columns("N:N").Select
+    Selection.Cut
+    Columns("h:h").Select
+    Selection.Insert Shift:=xlToRight
+
+    CarryOn = MsgBox("Update Creative & Philadelphia = Karma", vbYesNo, "Kutools for Excel")
+    CarryOn = MsgBox("add TOTAL SUM OPENINGS AT BOTTOM, ADD PIVOT TABLE, with definition", vbYesNo, "Kutools for Excel")
+End Sub
