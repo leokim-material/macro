@@ -1,3 +1,4 @@
+
 Sub jobssummary_format()
 
  
@@ -9,8 +10,6 @@ Sub jobssummary_format()
     'If CarryOn = vbNo Then
     'Exit Sub
     'End If
-
-    CarryOn = MsgBox("change date to MONDAY, not sunday; REMOVE ALEX'S REQS", vbYesNo, "Kutools for Excel")
     
     'Freeze view 1st row & 1st col
     Range("B2").Select
@@ -304,6 +303,7 @@ Sub jobssummary_format()
     
     'add sheet for data validation list
     Sheets.Add After:=ActiveSheet
+    Range("A1").Select
     ActiveCell.FormulaR1C1 = "Recently Opened"
     Range("A2").Select
     ActiveCell.FormulaR1C1 = "Sourcing"
@@ -314,6 +314,7 @@ Sub jobssummary_format()
     Range("A5").Select
     ActiveCell.FormulaR1C1 = "On Hold"
     Range("A6").Select
+    ActiveCell.FormulaR1C1 = "Cancelled"
     
     Sheets("All Jobs Summary").Select
     
@@ -326,7 +327,7 @@ Sub jobssummary_format()
     With Selection.Validation
         .Delete
         .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
-        xlBetween, Formula1:="=Sheet1!$A$1:$A$5"
+        xlBetween, Formula1:="=Sheet1!$A$1:$A$6"
         .IgnoreBlank = True
         .InCellDropdown = True
         .InputTitle = ""
@@ -474,13 +475,23 @@ Sub jobssummary_format()
     Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
     Range("G1").Select
     ActiveCell.FormulaR1C1 = "Business Unit"
-
-    'original business unit column move
+    Columns("G").ColumnWidth = 25
+    
+    'delete original business unit column
     Columns("N:N").Select
-    Selection.Cut
-    Columns("h:h").Select
-    Selection.Insert Shift:=xlToRight
+    Selection.Delete Shift:=xlToLeft
+    'adjust col width
 
-    CarryOn = MsgBox("Update Creative & Philadelphia = Karma", vbYesNo, "Kutools for Excel")
-    CarryOn = MsgBox("add TOTAL SUM OPENINGS AT BOTTOM, ADD PIVOT TABLE, with definition", vbYesNo, "Kutools for Excel")
+    'delete unnecessary columns
+    Columns("K:K").Select
+    Selection.Delete Shift:=xlToLeft
+
+    'add column
+    Columns("F:F").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("F1").Select
+    ActiveCell.FormulaR1C1 = "Notes"
+
+    CarryOn = MsgBox("change date to MONDAY, not sunday; Fix dates format; Update Creative & Philadelphia = Karma; ADD cancelled and on hold reqs to list", vbYesNo, "Reminder1")
+    CarryOn = MsgBox("add TOTAL SUM OPENINGS AT BOTTOM, ADD PIVOT TABLE, with definition", vbYesNo, "Reminder2")
 End Sub
