@@ -1,4 +1,3 @@
-
 Sub jobssummary_format()
 
  
@@ -349,13 +348,7 @@ Sub jobssummary_format()
     Rng.AutoFilter Field:=6, Criteria1:="*evergreen*"
     ActiveSheet.UsedRange.Offset(1, 0).Resize(ActiveSheet.UsedRange.Rows.Count - 1).EntireRow.Delete
     ActiveSheet.ShowAllData
-    
-    'filter for blank recruiters and delete rows
-    Set Rng = Selection
-    Rng.AutoFilter Field:=5, Criteria1:="="
-    ActiveSheet.UsedRange.Offset(1, 0).Resize(ActiveSheet.UsedRange.Rows.Count - 1).EntireRow.Delete
-    ActiveSheet.ShowAllData
-    
+        
     'add days open column
     Columns("E:E").Select
     Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
@@ -376,7 +369,7 @@ Sub jobssummary_format()
     Range("D1").Select
     ActiveCell.FormulaR1C1 = "DAYS OPEN"
     Range("D3").Select
-    ActiveCell.FormulaR1C1 = "T3"
+    ActiveCell.FormulaR1C1 = "Action"
     Range("D4").Select
     ActiveCell.FormulaR1C1 = "Others"
     Range("E2").Select
@@ -398,6 +391,65 @@ Sub jobssummary_format()
     Range("G4").Select
     ActiveCell.FormulaR1C1 = "61+"
  
+    'vlookup set up for r/g/b column
+    'all (excluding action)
+    Range("D7").Select
+    ActiveCell.FormulaR1C1 = "vlookup"
+    Range("D8").Select
+    ActiveCell.FormulaR1C1 = "0"
+    Range("D9").Select
+    ActiveCell.FormulaR1C1 = "31"
+    Range("D10").Select
+    ActiveCell.FormulaR1C1 = "61"
+    
+    Range("E7").Select
+    ActiveCell.FormulaR1C1 = "Days Open Range"
+    Range("E8").Select
+    ActiveCell.FormulaR1C1 = "0-30"
+    Range("E9").Select
+    ActiveCell.FormulaR1C1 = "31-60"
+    Range("E10").Select
+    ActiveCell.FormulaR1C1 = "61+"
+    
+    Range("F7").Select
+    ActiveCell.FormulaR1C1 = "Color"
+    Range("F8").Select
+    ActiveCell.FormulaR1C1 = "Green"
+    Range("F9").Select
+    ActiveCell.FormulaR1C1 = "Yellow"
+    Range("F10").Select
+    ActiveCell.FormulaR1C1 = "Red"
+    
+    
+    'vlookup for action
+    Range("H7").Select
+    ActiveCell.FormulaR1C1 = "vlookup (action)"
+    Range("H8").Select
+    ActiveCell.FormulaR1C1 = "0"
+    Range("H9").Select
+    ActiveCell.FormulaR1C1 = "46"
+    Range("H10").Select
+    ActiveCell.FormulaR1C1 = "61"
+    
+    Range("I7").Select
+    ActiveCell.FormulaR1C1 = "Days Open Range"
+    Range("I8").Select
+    ActiveCell.FormulaR1C1 = "0-45"
+    Range("I9").Select
+    ActiveCell.FormulaR1C1 = "46-60"
+    Range("I10").Select
+    ActiveCell.FormulaR1C1 = "61+"
+    
+    Range("J7").Select
+    ActiveCell.FormulaR1C1 = "Color"
+    Range("J8").Select
+    ActiveCell.FormulaR1C1 = "Green"
+    Range("J9").Select
+    ActiveCell.FormulaR1C1 = "Yellow"
+    Range("J10").Select
+    ActiveCell.FormulaR1C1 = "Red"
+    
+    'definitions
     Range("K1").Select
     ActiveCell.FormulaR1C1 = "Count of Job: total number of unique open requisitions"
     Range("K2").Select
@@ -492,6 +544,21 @@ Sub jobssummary_format()
     Range("F1").Select
     ActiveCell.FormulaR1C1 = "Notes"
 
-    CarryOn = MsgBox("change date to MONDAY, not sunday; Fix dates format; Update Creative & Philadelphia = Karma; ADD cancelled and on hold reqs to list", vbYesNo, "Reminder1")
+    Columns("H:H").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("H1").Select
+    ActiveCell.FormulaR1C1 = "Division"
+
+    Columns("F:F").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("F1").Select
+    ActiveCell.FormulaR1C1 = "g/y/r"
+    
+    'add formula g/y/r and autofill
+    Range("F2:F" & lastRow) = "=IF(B2=0,"" - "",IF(I2=""Action"",VLOOKUP(E2,Sheet1!$H$8:$J$10,3,1),VLOOKUP(E2,Sheet1!$D$8:$F$10,3,1)))"
+        
+    
+    CarryOn = MsgBox("change date to MONDAY, not sunday; Update Philadelphia = Karma; grab on hold & cancelled from prev week", vbYesNo, "Reminder1")
     CarryOn = MsgBox("add TOTAL SUM OPENINGS AT BOTTOM, ADD PIVOT TABLE, with definition", vbYesNo, "Reminder2")
 End Sub
+
